@@ -35,6 +35,9 @@ class User
     }
 }
 
+let loginLI;
+let loginLIParent;
+let userLI;
 
 
 "use strict";
@@ -47,7 +50,7 @@ let app;
     // Declare Function Variables here...
     console.log("%cDeclaring Variables", "color: red;")
     let contactObject = new Contact();
-
+    let userObject = new User();
     /**
      * Variable initialization in this function
      *
@@ -302,6 +305,15 @@ let app;
 
         $("#loginForm").submit  ((e)=>
         {
+            loginLI = document.getElementById('login');
+            loginLIParent = loginLI.parentNode;
+            userLI = loginLI.cloneNode(true);
+            userLI.id = "hr";
+
+            userLI.firstElementChild.firstElementChild.className = "fas fa-users";
+            userLI.firstElementChild.lastChild.textContent = $("#userName").val();
+
+            loginLIParent.insertBefore(userLI, loginLI);
            
             e.preventDefault();
             e.stopPropagation();
@@ -316,6 +328,119 @@ let app;
     function DisplayRegisterContent()
     {
         document.title = "WEBD6201 - Register";
+
+        function clearForm()
+        {
+            //document.getElementById("contactForm").reset();
+            $("#contactForm")[0].reset();
+            $("#errorMessage").hide();
+        }
+
+        function validateInput(selector, condition, errorMessage)
+        {
+            if(condition)
+            {
+                $("#errorMessage").show();
+                $("#errorMessage").text(errorMessage);
+                $(selector).select();
+                $(selector).css("border", "2px solid red");
+            }
+            else
+            {
+                $("#errorMessage").hide();
+                $(selector).css("border", "1px solid #ced4da");
+            }
+        }
+
+        $("#errorMessage").hide();
+        $("#firstName").select();
+
+        // First Name Events
+        $("#firstName").blur((e)=>
+        {
+            validateInput("#firstName",( $("#firstName").val().length < 2),"First Name is Too Short");
+        });
+
+        $("#firstName").focus((e)=>
+        {
+            $("#firstName").select();
+        });
+
+        // Last Name Events
+        $("#lastName").blur((e)=>
+        {
+            validateInput("#lastName",( $("#lastName").val().length < 2),"Last Name is Too Short");
+        });
+
+        $("#lastName").focus((e)=>
+        {
+            $("#lastName").select();
+        });
+
+        // Email Events
+        $("#emailAddress").blur((e)=>
+        {
+            validateInput("#emailAddress",($("#emailAddress").val().length < 8) || (!$("#emailAddress").val().includes("@")),"Invalid Email Address");
+        });
+
+        $("#emailAddress").focus((e)=>
+        {
+            $("#emailAddress").select();
+        });
+
+        // Password Events
+        $("#password").blur((e)=>
+        {
+            validateInput("#password",( $("#password").val().length < 6),"Password is Too Short");
+        });
+
+        $("#password").focus((e)=>
+        {
+            $("#password").select();
+        });
+
+        // Confirm Password Events
+        $("#confirmPassword").blur((e)=>
+        {
+            validateInput("#confirmPassword",( $("#confirmPassword") !== $("#password")),"Passwords Do Not Match");
+        });
+
+        $("#confirmPassword").focus((e)=>
+        {
+            $("#confirmPassword").select();
+        });
+
+
+        $("#registerForm").submit  ((e)=>
+        {
+            if(document.getElementById("registerForm").checkValidity() == false)
+            {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log("form not valid");
+            }
+
+            
+            let firstName = $("#firstName").val();
+            let lastName = $("#lastName").val();
+            let emailAddress = $("#emailAddress").val();
+            let password = $("#password").val();
+
+            console.log(`First Name		: ${firstName}`);
+            console.log(`Last Name		: ${lastName}`);
+            console.log(`Email Address	: ${emailAddress}`);
+            console.log(`Password		: ${password}`);
+
+            contactObject.firstName = firstName;
+            contactObject.lastName = lastName;
+            contactObject.emailAddress = emailAddress;
+            contactObject.password = password;
+
+            console.log(contactObject);
+
+            clearForm();
+        });
+
     }
 
     /**
