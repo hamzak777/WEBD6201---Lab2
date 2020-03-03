@@ -431,13 +431,17 @@ let app;
             console.log(`Email Address	: ${emailAddress}`);
             console.log(`Password		: ${password}`);
 
-            contactObject.firstName = firstName;
-            contactObject.lastName = lastName;
-            contactObject.emailAddress = emailAddress;
-            contactObject.password = password;
+            userObject.firstName = firstName;
+            userObject.lastName = lastName;
+            userObject.emailAddress = emailAddress;
+            userObject.password = password;
 
-            console.log(contactObject);
+            console.log(userObject);
 
+            e.preventDefault();
+            e.stopPropagation();
+            
+            $("#registerForm")[0].reset();
             clearForm();
         });
 
