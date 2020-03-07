@@ -1,5 +1,5 @@
 // Hamza Khan 100709587
-// Date Completed: 03/--/2020
+// Date Completed: 03/6/2020
 class Contact
 {
     constructor(contactName = "", emailAddress = "", contactNumber = "", contactMessage = "")
@@ -305,13 +305,15 @@ let app;
 
         $("#loginForm").submit  ((e)=>
         {
+            let userName = $("#userName").val();
+
             loginLI = document.getElementById('login');
             loginLIParent = loginLI.parentNode;
             userLI = loginLI.cloneNode(true);
             userLI.id = "hr";
 
             userLI.firstElementChild.firstElementChild.className = "fas fa-users";
-            userLI.firstElementChild.lastChild.textContent = $("#userName").val();
+            userLI.firstElementChild.lastChild.textContent = userName;
 
             loginLIParent.insertBefore(userLI, loginLI);
            
@@ -441,7 +443,7 @@ let app;
             e.preventDefault();
             e.stopPropagation();
             
-            $("#registerForm")[0].reset();
+            //$("#registerForm")[0].reset();
             clearForm();
         });
 
